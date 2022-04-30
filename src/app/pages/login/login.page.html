@@ -1,0 +1,29 @@
+<div class="container">
+    <h1>Log in</h1>
+    <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
+        <fieldset>
+            <input 
+            id="username" 
+            name="username" 
+            ngModel
+            #username="ngModel"
+            type="text" 
+            class="form-control"
+            required
+            minlength="3"
+            maxlength="20" />
+        </fieldset>
+
+        <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger">
+            <span *ngIf="username.errors['required']">Required.</span>
+            <span *ngIf="username.errors['minlength']">Too short.</span>
+            <span *ngIf="username.errors['maxlength']">Too long.</span>
+        </div>
+
+        <button
+        [disabled]="loginForm.invalid || loading"
+        class="btn btn-primary">Log in</button>
+
+        <span *ngIf="loading">Loading...</span>
+    </form>
+</div>

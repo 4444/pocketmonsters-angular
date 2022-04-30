@@ -1,0 +1,23 @@
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <div class="toolbar">
+        <app-audio-player></app-audio-player>
+    </div>
+    <div class="main-content">
+        <div id="game-screen">
+            <div #mapGrid id="map-grid">
+                <div #mapPlayer class="map-character"></div>
+            </div>
+            <div *ngIf="isInMenu || !hasStarted" class="overlay-white"></div>
+            <div *ngIf="isBattling" class="overlay-transparent"></div>
+            <div *ngIf="!hasStarted" class="pause-overlay">
+                <button class="btn btn-light" (click)="startGame()">Start</button>
+            </div>
+        </div>
+        <div id="details-screen">
+            <button class="btn btn-light" (click)="loadMap1()">Load map 1</button>
+            <button class="btn btn-light" (click)="loadMap2()">Load map 2</button>
+            <button class="btn btn-light" (click)="startBattle()">BATTLE!</button>
+            <button class="btn btn-light" (click)="finishBattle()">Finish</button>
+        </div>
+    </div>
+</div>

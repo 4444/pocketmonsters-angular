@@ -1,0 +1,80 @@
+.main-content {
+    position: relative;
+    width: 640px;
+    height: 480px;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+}
+
+#game-screen {
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay-white {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255);
+    z-index: 1;
+}
+
+.overlay-transparent {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255, 0);
+    z-index: 1;
+}
+
+.pause-overlay {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+#map-grid {
+    position: relative;
+}
+
+.map-character {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/player_sheet_32.png") -32px 0px;
+}
+
+.map-tile {
+    position: absolute;
+    width:32px;
+    height:32px;
+    z-index: 0;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/gsc_tileset_1.png") 0px -64px;
+}
+
+/* Solid tiles are not clickable by default */
+.map-tile:hover {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.map-tile[tiletype="0"]:hover,
+.map-tile[tiletype="2"]:hover,
+.map-tile[tiletype="3"]:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
