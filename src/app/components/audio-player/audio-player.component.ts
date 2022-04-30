@@ -13,13 +13,19 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   private bgm_battle_audio : HTMLAudioElement = new Audio(Resources.BGM_BATTLE_URL);
   private bgm_cherry_audio : HTMLAudioElement = new Audio(Resources.BGM_CHERRY_URL);
 
-  private audioElements: HTMLAudioElement[] = [this.bgm_title_audio, this.bgm_route_audio, this.bgm_battle_audio, this.bgm_cherry_audio];
+  private sfx_caught_mon : HTMLAudioElement = new Audio(Resources.SFX_CAUGHT_MON_URL);
+
+  private bgmElements: HTMLAudioElement[] = [this.bgm_title_audio, this.bgm_route_audio, this.bgm_battle_audio, this.bgm_cherry_audio];
+  private sfxElements: HTMLAudioElement[] = [this.sfx_caught_mon];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.audioElements.forEach(audio => audio.loop = true);
-    this.audioElements.forEach(audio => audio.preload = "auto");
+    this.bgmElements.forEach(audio => audio.loop = true);
+    this.bgmElements.forEach(audio => audio.preload = "auto");
+
+    this.sfxElements.forEach(audio => audio.loop = false);
+    this.sfxElements.forEach(audio => audio.preload = "auto");
   }
 
   public playTitle() {
@@ -45,14 +51,18 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
     this.bgm_battle_audio.play();
   }
 
+  public playSfxCaught() {
+    this.sfx_caught_mon.play();
+  }
+
   private pauseAll() {
-    this.audioElements.forEach(a => {
+    this.bgmElements.forEach(a => {
       a.pause();
     });
   }
 
   public ngAfterViewInit() {
-    console.log(this.audioElements);
+    console.log(this.bgmElements);
   }
 
 }

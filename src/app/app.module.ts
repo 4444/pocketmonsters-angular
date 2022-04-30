@@ -8,13 +8,15 @@ import { GamePage } from './pages/game/game.page';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPage,
     GamePage,
-    AudioPlayerComponent
+    AudioPlayerComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

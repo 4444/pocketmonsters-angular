@@ -3,14 +3,24 @@
         <app-audio-player></app-audio-player>
     </div>
     <div class="main-content">
-        <div id="game-screen">
-            <div #mapGrid id="map-grid">
-                <div #mapPlayer class="map-character"></div>
+        <div #gameScreen id="game-screen">
+            <div #mapGrid id="map-grid" [ngStyle]="{'filter': (inEncounter) ? 'blur(1px)' : 'none'}">
+                <app-player class="map-character"></app-player>
             </div>
             <div *ngIf="isInMenu || !hasStarted" class="overlay-white"></div>
-            <div *ngIf="isBattling" class="overlay-transparent"></div>
+            <div #encounterContainer *ngIf="inEncounter" class="encounter-container">
+                <span *ngIf="encounterName" class="encounter-text">A wild {{ encounterName }} appeared!</span>
+                <div *ngIf="encounterImageUrl" class="encounter-pokemon" [style.background]="encounterImageUrl"></div>
+                <button [disabled]="isProcessing" class="btn btn-light encounter-btn" (click)="catchMon()">
+                    Catch
+                    <div class="pokeball"></div>
+                </button>
+                <button [disabled]="isProcessing" class="btn btn-light encounter-btn" (click)="finishBattle()">Run away</button>
+            </div>
             <div *ngIf="!hasStarted" class="pause-overlay">
-                <button class="btn btn-light" (click)="startGame()">Start</button>
+                <button class="btn btn-light" (click)="startGame()">
+                    Press Start
+                </button>
             </div>
         </div>
         <div id="details-screen">

@@ -7,7 +7,5 @@ export interface Pokemon {
     types: PokemonType[],
     level: number,
     exp: number,
-    hpCurrent: number,
-    stats: [number, number, number, number, number],
     ivs: [number, number, number, number, number]
 }
