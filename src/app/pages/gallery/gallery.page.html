@@ -1,0 +1,39 @@
+<nav class="navbar fixed-top navbar-expand navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-nav" style="display: flex; justify-content: flex-start;">
+            <button class="btn btn-outline-primary" (click)="clickNavigate('game')">← Return to game</button>
+        </div>
+        <div class="navbar-nav" style="display: flex; justify-content: flex-end;">
+            <app-trainer-name></app-trainer-name>
+            <app-log-out-button></app-log-out-button>
+        </div>
+    </div>
+</nav>
+
+<div id="gallery-content">
+    <div class="container">
+        <h1 class="text-center">Pokemon Gallery</h1>
+
+        <input id="toggle-caught" type="checkbox" [checked]="showCaught" (change)="toggleShowCaught()" />
+        <label class="label-toggle-caught" for="toggle-caught">Hide uncaught Pokemon</label>
+
+        <p *ngIf="loading">Loading...</p>
+
+        <div *ngIf="!loading && pokemonSpecies" class="row">
+            <div *ngFor="let species of pokemonSpecies;" class="gallery-single" [style]="{'display': getCaughtAmount(species.id) > 0 || !showCaught ? 'flex' : 'none'}">
+                <span class="gallery-species-id">no.{{species.id.toString().padStart(3,"0")}}</span>
+                <span>
+                    <div *ngIf="(getCaughtAmount(species.id) > 0)" class="pokeball"></div>
+                    {{species.name}}
+                </span>
+                <div class="gallery-species-sprite" [style]="{'filter': (getCaughtAmount(species.id) === 0) ? 'grayscale(1)' : 'none'}">
+                    <img [src]="getSpeciesImageUrl(species.id)" [title]="species.name" />
+                </div>
+                <p>Caught: {{getCaughtAmount(species.id)}}</p>
+                <button (click)="clickViewCaught(species.id)" class="btn btn-outline-dark gallery-btn-view" [style]="{'visibility': (getCaughtAmount(species.id) > 0) ? 'visible' : 'hidden'}">
+                    View Caught Pokemon
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

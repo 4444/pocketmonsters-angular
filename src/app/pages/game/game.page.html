@@ -1,4 +1,21 @@
+<nav class="navbar fixed-top navbar-expand navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-nav" style="display: flex; justify-content: flex-start;">
+            <button class="btn btn-outline-primary" (click)="clickNavigate('/gallery')" title="Visit Gallery">
+                <div class="pikachu"></div>
+                Visit Gallery →
+            </button>
+        </div>
+        <div class="navbar-nav" style="display: flex; justify-content: flex-end;">
+            <app-trainer-name></app-trainer-name>
+            <app-log-out-button></app-log-out-button>
+        </div>
+    </div>
+</nav>
+
 <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <span *ngIf="needsInstructions" class="game-instructions">Instructions: Walk through the tall grass to encounter Pokemon. Have fun!</span>
+
     <div class="toolbar">
         <app-audio-player></app-audio-player>
     </div>
@@ -9,25 +26,30 @@
             </div>
             <div *ngIf="isInMenu || !hasStarted" class="overlay-white"></div>
             <div #encounterContainer *ngIf="inEncounter" class="encounter-container">
-                <span *ngIf="encounterName" class="encounter-text">A wild {{ encounterName }} appeared!</span>
+                <span *ngIf="encounterName && !encounterWasCaught" class="encounter-text">A wild {{ encounterName }} appeared!</span>
+                <span *ngIf="encounterName && encounterWasCaught" class="encounter-text capture-message">{{ encounterName }} was caught!</span>
                 <div *ngIf="encounterImageUrl" class="encounter-pokemon" [style.background]="encounterImageUrl"></div>
-                <button [disabled]="isProcessing" class="btn btn-light encounter-btn" (click)="catchMon()">
+
+                <button *ngIf="!encounterWasCaught && encounterName" (click)="catchPokemonEncounter()" [disabled]="isProcessing" class="btn btn-light encounter-btn">
                     Catch
                     <div class="pokeball"></div>
                 </button>
-                <button [disabled]="isProcessing" class="btn btn-light encounter-btn" (click)="finishBattle()">Run away</button>
+                <button *ngIf="!encounterWasCaught && encounterName" (click)="finishBattle()" [disabled]="isProcessing" class="btn btn-light encounter-btn">Run away</button>
             </div>
             <div *ngIf="!hasStarted" class="pause-overlay">
-                <button class="btn btn-light" (click)="startGame()">
-                    Press Start
+                <div class="game-logo">
+                    <img src="https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pokemon-logo.png" />
+                </div>
+                <span class="game-logo-text">Generation II collecting game</span>
+                <button class="btn btn-primary game-btn-start" (click)="startGame()">
+                    Press To Start
                 </button>
+                <span class="game-credits">© 2022 Beau Casemie</span>
             </div>
         </div>
         <div id="details-screen">
-            <button class="btn btn-light" (click)="loadMap1()">Load map 1</button>
-            <button class="btn btn-light" (click)="loadMap2()">Load map 2</button>
-            <button class="btn btn-light" (click)="startBattle()">BATTLE!</button>
-            <button class="btn btn-light" (click)="finishBattle()">Finish</button>
+            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-outline-dark" (click)="loadMap1()">Visit Route 1</button>
+            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-outline-dark" (click)="loadMap2()">Visit Route 2</button>
         </div>
     </div>
 </div>

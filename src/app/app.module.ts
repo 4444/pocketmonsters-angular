@@ -9,6 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { PlayerComponent } from './components/player/player.component';
+import { GalleryPage } from './pages/gallery/gallery.page';
+import { GalleryPokemonPage } from './pages/gallery/gallery-pokemon/gallery-pokemon.page';
+import { LogOutButtonComponent } from './components/log-out-button/log-out-button.component';
+import { TrainerNameComponent } from './components/trainer-name/trainer-name.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,11 @@ import { PlayerComponent } from './components/player/player.component';
     LoginPage,
     GamePage,
     AudioPlayerComponent,
-    PlayerComponent
+    PlayerComponent,
+    GalleryPage,
+    GalleryPokemonPage,
+    LogOutButtonComponent,
+    TrainerNameComponent
   ],
   imports: [
     BrowserModule,

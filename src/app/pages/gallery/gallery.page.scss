@@ -1,0 +1,57 @@
+.label-toggle-caught {
+    font-size: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+#gallery-content {
+    margin: 5rem;    
+}
+
+.gallery-species-id {
+    color: gray;
+    font-size: 0.75rem;
+}
+
+.gallery-single {
+    image-rendering: pixelated;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 10%;
+    text-transform: capitalize;
+    padding: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display:flex;
+    width: auto;
+}
+
+.gallery-species-sprite {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    text-align: center;
+    width: 96px;
+    height: 96px;
+}
+
+.gallery-btn-view {
+    font-size: 0.5rem;
+}
+
+.gallery-species-sprite.uncaught {
+    filter: grayscale(1);
+}
+
+.nav-trainer {
+    background: url("https://raw.githubusercontent.com/smogon/sprites/master/src/_uncategorized/noncanonical/trainers/misc/Ash.png");
+}
+
+.pokeball {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pokeball_small.png");
+}

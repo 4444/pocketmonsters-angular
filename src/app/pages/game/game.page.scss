@@ -66,6 +66,14 @@
     background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/gsc_tileset_1.png") 0px -64px;
 }
 
+.game-instructions {
+    position: absolute;
+    top: 10rem;
+    font-size: 1rem;
+    color: #000;
+    margin: 0;
+}
+
 /* Solid tiles are not clickable by default */
 .map-tile:hover {
     opacity: 1;
@@ -99,6 +107,10 @@
     color: white;
 }
 
+.encounter-text.capture-message {
+    color: rgb(24,220,24);
+}
+
 .encounter-btn {
     position: relative;
     top: 10rem;
@@ -114,6 +126,42 @@
   filter: drop-shadow(0 0 0.25rem #fff);
 }
 
+.game-logo {
+    width: 320px;
+    top: 2.5rem;
+    display:inline-block;
+    position: absolute;
+}
+
+.game-logo img {
+    width: 100%;
+}
+
+.game-logo-text {
+    float: left;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 1px 1px #000;
+    width: 50%;
+    text-align: center;
+}
+
+.game-credits {
+    bottom: 1rem;
+    left: 1rem;
+    position: absolute;
+    float: left;
+    font-size: 0.5rem;
+    color: #fff;
+    text-shadow: 1px 1px #000;
+}
+
+.game-btn-start {
+    bottom: 25%;
+    position: absolute;
+    text-transform: uppercase;
+}
+
 .pokeball {
     width: 16px;
     height: 16px;
@@ -122,4 +170,17 @@
     margin-right: 0.5rem;
     margin-top: 0.25rem;
     background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pokeball_small.png");
+}
+
+.pikachu {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pika_0.png");
+}
+
+button:hover .pikachu {
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pika_1.png");
 }

@@ -1,0 +1,48 @@
+<nav class="navbar fixed-top navbar-expand navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-nav" style="display: flex; justify-content: flex-start;">
+            <button class="btn btn-outline-primary" (click)="clickNavigate('gallery')">
+                ← Return to gallery
+                <div class="pikachu"></div>
+            </button>
+        </div>
+        <div class="navbar-nav" style="display: flex; justify-content: flex-end;">
+            <app-trainer-name></app-trainer-name>
+            <app-log-out-button></app-log-out-button>
+        </div>
+    </div>
+</nav>
+
+<div id="gallery-pokemon-content">
+    <div class="container gallery-pokemon-data">
+        <h1 class="text-center">Caught Pokemon ({{id.toString().padStart(3,"0")}})</h1>
+
+        <p *ngIf="caughtPokemon.length === 0">You do not own this Pokemon.</p>
+        <div *ngFor="let pokemon of caughtPokemon;" class="gallery-pokemon-data-single">
+            <div class="text-left">
+                <p>Name: {{pokemon.nickname}}</p>
+                <p>Level: {{pokemon.level}}</p>
+            </div>
+            <table class="table-bordered stat-table">
+                <thead>
+                    <tr>
+                        <td>HP</td>
+                        <td>Attack</td>
+                        <td>Defense</td>
+                        <td>Special</td>
+                        <td>Speed</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngFor="let iv of pokemon.ivs">{{iv}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <img [src]="getPokemonImageUrl()" [title]="pokemon.nickname" />
+            <button (click)="releasePokemon(pokemon.uid)" [disabled]="processingUid" class="btn btn-danger">
+                {{ processingUid && processingUid === pokemon.uid ? "Releasing..." : "Release" }}
+            </button>
+        </div>
+    </div>
+</div>

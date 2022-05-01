@@ -30,24 +30,22 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
 
   public playTitle() {
     this.pauseAll();
-    this.bgm_battle_audio.currentTime = 0;
     this.bgm_title_audio.play();
   }
 
   public playCherry() {
     this.pauseAll();
-    this.bgm_battle_audio.currentTime = 0;
     this.bgm_cherry_audio.play();
   }
 
   public playRoute() {
     this.pauseAll();
-    this.bgm_battle_audio.currentTime = 0;
     this.bgm_route_audio.play();
   }
 
   public playBattle() {
     this.pauseAll();
+    this.bgm_battle_audio.currentTime = 0;
     this.bgm_battle_audio.play();
   }
 
@@ -55,14 +53,13 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
     this.sfx_caught_mon.play();
   }
 
-  private pauseAll() {
+  public pauseAll() {
     this.bgmElements.forEach(a => {
       a.pause();
     });
   }
 
   public ngAfterViewInit() {
-    console.log(this.bgmElements);
   }
 
 }

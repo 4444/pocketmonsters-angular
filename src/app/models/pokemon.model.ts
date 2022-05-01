@@ -1,5 +1,6 @@
 import { PokemonType } from "../enums/pokemon-type.enum";
 
+// Model for a (caught) Pokemon
 export interface Pokemon {
     id: number,
     uid: number,

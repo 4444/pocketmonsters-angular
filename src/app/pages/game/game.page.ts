@@ -9,6 +9,10 @@ import { GameState } from 'src/app/enums/game-state.enum';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { Pokemon } from 'src/app/models/pokemon.model';
 import { PlayerComponent } from 'src/app/components/player/player.component';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
+import { textChangeRangeIsUnchanged } from 'typescript';
 
 export const UPDATE_INTERVAL_TIMEOUT = 120;
 export const CHANCE_RANDOM_ENCOUNTER = 0.2;
@@ -32,7 +36,10 @@ export class GamePage implements OnInit, AfterViewInit {
   private updateIntervalId!:ReturnType<typeof setInterval>;
   private battleTransitionFrames = 0;
   private encounterPokemon?:Pokemon = undefined;
+  private encounterCaught:boolean = false;
   private processingRequest:boolean = false;
+
+  public needsInstructions:boolean = true;
 
   public get inEncounter(): boolean {
     return this.state === GameState.IN_ENCOUNTER;
@@ -59,18 +66,35 @@ export class GamePage implements OnInit, AfterViewInit {
     return `url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/${this.encounterPokemon?.id}.png")`;
   }
 
+  public get encounterWasCaught(): boolean {
+    return this.encounterCaught;
+  }
+
   public get isProcessing(): boolean {
     return this.processingRequest;
   }
 
   constructor(
-    private renderer:Renderer2, 
-    private pokemonService:PokemonService) {
+    private renderer:Renderer2,
+    private userService:UserService,
+    private pokemonService:PokemonService,
+    private router:Router) {
+  }
+
+  public clickNavigate(url:string) {
+    this.audioPlayer.pauseAll();
+    this.router.navigateByUrl(url);
   }
 
   public startGame() {
-    this.audioPlayer.playTitle();
-    this.state = GameState.IN_MENU;
+    if (this.userService.localUser!.sprite !== -1) {
+      // TODO: Show menu to set custom sprite if sprite is not set
+    }
+
+    // If the trainer character is already initialized, go to to the overworld
+    this.state = GameState.IN_OVERWORLD;
+    this.loadMap2();
+    return;
   }
 
   public isTileSolid(t:TileType) {
@@ -79,6 +103,7 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // Start the update loop
     this.updateIntervalId = setInterval(() => {
       this.update();
     }, UPDATE_INTERVAL_TIMEOUT);
@@ -155,18 +180,19 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   public loadMap1() {
-    this.player.setPosition(2,14);
+    this.player.setPosition(2,14, Direction.NORTH);
     this.loadMap(MAP_TEST2);
-    this.audioPlayer.playCherry();
+    this.audioPlayer.playRoute();
   }
 
   public loadMap2() {
-    this.player.setPosition(5,10, Direction.EAST);
+    this.player.setPosition(16,3, Direction.SOUTH);
     this.loadMap(MAP_TEST);
     this.audioPlayer.playRoute();
   }
 
   public startBattle() {
+    this.needsInstructions = false;
     this.state = GameState.IN_ENCOUNTER;
     this.battleTransitionFrames = 0;
     this.audioPlayer.playBattle();
@@ -174,19 +200,50 @@ export class GamePage implements OnInit, AfterViewInit {
     this.pokemonService.generateRandomPokemon(1).subscribe({
       next: (pokemon:Pokemon) => {
         this.encounterPokemon = pokemon;
+      },
+      error: () => {
+        alert("Could not reach server. Please try again later.");
       }
     });
   }
 
-  public catchMon() {
+  public catchPokemonEncounter() {
     // Catch the currently encountered pokemon
     this.processingRequest = true;
-    // TODO: Make API request, add mon to user.
-    this.audioPlayer.playSfxCaught();
+    this.audioPlayer.pauseAll();
+
+    const localUser:User = this.userService.localUser!;
+
+    const changedUser:User = {
+      ...localUser,
+      pokemon: [
+        ...localUser.pokemon,
+        this.encounterPokemon! // Add the mon to our collection
+      ]
+    }
+
+    this.userService.update(changedUser).subscribe({
+      next: (updatedUser:User) => {
+        this.userService.localUser = updatedUser;
+        this.encounterCaught = true;
+        this.audioPlayer.playSfxCaught();
+        setTimeout(() => {
+          this.finishBattle();
+        }, 3000);
+      },
+      error: () => {
+        alert("Something went wrong. Please try again.");
+        this.processingRequest = false;
+      },
+      complete: () => {
+        this.processingRequest = false;
+      }
+    });
   }
 
   public finishBattle() {
     this.encounterPokemon = undefined;
+    this.encounterCaught = false;
     this.state = GameState.IN_OVERWORLD;
     this.audioPlayer.playRoute();
   }
@@ -213,7 +270,7 @@ export class GamePage implements OnInit, AfterViewInit {
       }
     }
 
-    this.loadMap(MAP_TEST);
+    this.player.setPosition(16,3);
   }
 
   ngOnDestroy() {

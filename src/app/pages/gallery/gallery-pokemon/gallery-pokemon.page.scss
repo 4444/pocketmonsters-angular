@@ -1,0 +1,53 @@
+.text-left {
+    text-align: left;
+}
+
+#gallery-pokemon-content {
+    margin: 5rem;
+}
+
+.gallery-pokemon-data {
+    image-rendering: pixelated;
+    font-size: 0.75rem;
+
+    padding: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display:flex;
+}
+
+.gallery-pokemon-data-single {
+    text-transform: capitalize;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 1%;
+    padding: 1rem;
+    margin: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display:flex;
+}
+
+.gallery-pokemon-data-single img {
+    margin: 2rem;
+}
+
+.stat-table td {
+    padding: 0.5rem;
+}
+
+.pikachu {
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin-left: 0.5rem;
+    margin-top: 0.25rem;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pika_0.png");
+}
+
+button:hover .pikachu {
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pika_1.png");
+}
