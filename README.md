@@ -9,3 +9,16 @@ To build and run this application, the Angular CLI must be installed using `npm 
 * Run `ng serve` to build and run the application
 
 Try out the live demo at https://4444.github.io/pocketmonsters/!
+
+## Screenshots
+Overworld
+<br/>
+![screenshot_0](https://user-images.githubusercontent.com/21246750/166256364-da51c8ff-ea1b-45d7-9f3c-2c08e188153a.png)
+<br/>
+Encounter
+<br/>
+![screenshot_1](https://user-images.githubusercontent.com/21246750/166256376-e463694c-685a-4620-bad1-454774c7852c.png)
+<br/>
+Gallery
+<br/>
+![screenshot_2](https://user-images.githubusercontent.com/21246750/166256380-9dba13ce-ff23-43e3-8811-97d65f45fe67.png)
