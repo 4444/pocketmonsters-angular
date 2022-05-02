@@ -1,0 +1,59 @@
+#login-content {
+    padding: 10rem;
+}
+
+.btn:disabled {
+    pointer-events: all;
+    cursor: not-allowed;
+}
+
+.game-logo {
+    image-rendering: pixelated;
+    width: 320px;
+    margin: 1.5rem;
+    display:inline-block;
+}
+
+.game-logo img {
+    width: 100%;
+}
+
+form {
+    display: inline-block;
+}
+
+.login-message {
+    color: rgba(0,0,0,0.5);
+    font-size: 0.75rem;
+}
+
+.btn-login {
+    margin: 0.5rem;
+}
+
+.status-server {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.5rem;
+    margin: 1rem;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.green {
+    background-color: lawngreen;
+}
+
+.dot.orange {
+    background-color: orange;
+}
+
+.dot.red {
+    background-color: red;
+}

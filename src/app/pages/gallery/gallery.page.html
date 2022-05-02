@@ -10,14 +10,21 @@
     </div>
 </nav>
 
-<div id="gallery-content">
+<div id="gallery-content" class="min-vh-100">
     <div class="container">
         <h1 class="text-center">Pokemon Gallery</h1>
 
         <input id="toggle-caught" type="checkbox" [checked]="showCaught" (change)="toggleShowCaught()" />
         <label class="label-toggle-caught" for="toggle-caught">Hide uncaught Pokemon</label>
 
-        <p *ngIf="loading">Loading...</p>
+        <div *ngIf="loading" class="loader"></div>
+
+        <p *ngIf="errorMessage">{{errorMessage}}</p>
+
+        <div *ngIf="showCaught && getTotalCaughtAmount() === 0" class="text-center">
+            <p>You don't have any Pokemon in your collection.</p>
+            <p>Play the <a [routerLink]="'/game'">game</a> to catch Pokemon!</p>
+        </div>
 
         <div *ngIf="!loading && pokemonSpecies" class="row">
             <div *ngFor="let species of pokemonSpecies;" class="gallery-single" [style]="{'display': getCaughtAmount(species.id) > 0 || !showCaught ? 'flex' : 'none'}">
@@ -29,7 +36,7 @@
                 <div class="gallery-species-sprite" [style]="{'filter': (getCaughtAmount(species.id) === 0) ? 'grayscale(1)' : 'none'}">
                     <img [src]="getSpeciesImageUrl(species.id)" [title]="species.name" />
                 </div>
-                <p>Caught: {{getCaughtAmount(species.id)}}</p>
+                <p class="gallery-species-caught-text">Caught: {{getCaughtAmount(species.id)}}</p>
                 <button (click)="clickViewCaught(species.id)" class="btn btn-outline-dark gallery-btn-view" [style]="{'visibility': (getCaughtAmount(species.id) > 0) ? 'visible' : 'hidden'}">
                     View Caught Pokemon
                 </button>

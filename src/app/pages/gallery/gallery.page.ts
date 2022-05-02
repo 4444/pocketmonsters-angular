@@ -17,17 +17,21 @@ export class GalleryPage implements OnInit {
 
   public errorMessage:string | undefined;
 
-  public showCaught:boolean = false;
+  public showCaught:boolean = true;
 
   public getSpeciesImageUrl(id:number):string {
     if (this.getCaughtAmount(id) > 0)
-      return `https://pkmn.net/sprites/crystal/${id}.gif`; // Return an animated gif if the user has caught this pokemon.
+      return `https://pkmn.net/sprites/crystal/${id}.gif`; // Return an animated gif only if the user has caught this pokemon.
       
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/${id}.png`;
   }
 
   public getCaughtAmount(id:number):number {
     return this.userService.localUser!.pokemon.filter(p => p.id === id).length;
+  }
+
+  public getTotalCaughtAmount():number {
+    return this.userService.localUser?.pokemon.length ?? 0;
   }
 
   public toggleShowCaught():void {

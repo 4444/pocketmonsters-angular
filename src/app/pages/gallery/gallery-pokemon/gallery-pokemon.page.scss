@@ -51,3 +51,23 @@
 button:hover .pikachu {
     background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pika_1.png");
 }
+
+/* Pokemon type color effects */
+.normal { text-shadow: 0 0 8px lightgray; }
+.fire { text-shadow: 0 0 8px orangered; }
+.water { text-shadow: 0 0 8px cornflowerblue; }
+.electric { text-shadow: 0 0 8px yellow; }
+.grass { text-shadow: 0 0 8px lawngreen; }
+.ice { text-shadow: 0 0 8px lightcyan; }
+.fighting { text-shadow: 0 0 8px crimson; }
+.poison { text-shadow: 0 0 8px purple; }
+.ground { text-shadow: 0 0 8px sandybrown; }
+.flying { text-shadow: 0 0 8px deepskyblue; }
+.psychic { text-shadow: 0 0 8px deeppink; }
+.bug { text-shadow: 0 0 8px lightgreen; }
+.rock { text-shadow: 0 0 8px tan; }
+.ghost { text-shadow: 0 0 8px darkslateblue; }
+.dragon { text-shadow: 0 0 8px indigo; }
+.dark { text-shadow: 0 0 8px darkgray; }
+.steel { text-shadow: 0 0 8px red; }
+.fairy { text-shadow: 0 0 8px violet; }

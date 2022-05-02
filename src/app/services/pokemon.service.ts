@@ -5,13 +5,13 @@ import { Pokemon } from '../models/pokemon.model';
 import { environment } from 'src/environments/environment';
 import { PokemonType } from '../enums/pokemon-type.enum';
 import { map, Observable } from 'rxjs';
-import { UserService } from './user.service';
 import { PokeApiData } from '../models/api/pokeApiData.model';
 import { PokeApiSpeciesData } from '../models/api/pokeApiSpeciesData.model';
 import { PokemonSpecies } from '../models/pokemon-species.model';
 
 const { pokeApiURL } = environment;
 
+// Helper function for generating a random integer within a range
 const randomInt = (min:number, max:number):number => 
   Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -22,10 +22,12 @@ export class PokemonService {
 
   constructor(private http:HttpClient) { }
 
+  // Used to retrieve data for a single Pokemon
   public getPokemonData = (id:number):Observable<PokeApiData> => {
     return this.http.get<PokeApiData>(`${pokeApiURL}/pokemon/${id}`);
   }
 
+  // Used to retrieve all pokemon species (up to generation 2)
   public getPokemonSpecies = ():Observable<PokemonSpecies[]> => {
     return this.http.get<PokeApiSpeciesData>(`${pokeApiURL}/pokemon-species?offset=0&limit=251`).pipe<PokemonSpecies[]>(
       map(data => {
@@ -39,6 +41,7 @@ export class PokemonService {
     );
   }
 
+  // Used to generate a new pokemon, based on its dex number (id)
   public generatePokemon = (id:number, level:number):Observable<Pokemon> => {
     const generateUID = () => Math.floor(Math.random() * Math.pow(2, 32));
     const generateIV = () => randomInt(0,15);
@@ -65,6 +68,7 @@ export class PokemonService {
     );
   }
 
+  // Used to generate a pokemon with a random id
   public generateRandomPokemon = (level:number):Observable<Pokemon> => {
     return this.generatePokemon(randomInt(1,251), level);
   }

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, Vie
 import { AudioPlayerComponent } from 'src/app/components/audio-player/audio-player.component';
 import { GRID_COLS, GRID_ROWS, TILE_HEIGHT_PX, TILE_WIDTH_PX } from 'src/app/constants/game.const';
 import { TILE_OFFSET_MAP } from 'src/app/constants/tile-id-map.const';
-import { MAP_TEST, MAP_TEST2 } from 'src/app/constants/map-data.const';
+import { MAP_ROUTE_1, MAP_ROUTE_2 } from 'src/app/constants/map-data.const';
 import { TileType } from 'src/app/enums/tile-type.enum';
 import { Direction } from 'src/app/enums/direction.enum';
 import { GameState } from 'src/app/enums/game-state.enum';
@@ -12,7 +12,6 @@ import { PlayerComponent } from 'src/app/components/player/player.component';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
-import { textChangeRangeIsUnchanged } from 'typescript';
 
 export const UPDATE_INTERVAL_TIMEOUT = 120;
 export const CHANCE_RANDOM_ENCOUNTER = 0.2;
@@ -24,12 +23,16 @@ export const CHANCE_RANDOM_ENCOUNTER = 0.2;
 })
 export class GamePage implements OnInit, AfterViewInit {
 
-  @ViewChild(AudioPlayerComponent) audioPlayer!: AudioPlayerComponent;
+  constructor(
+    private renderer:Renderer2,
+    private userService:UserService,
+    private pokemonService:PokemonService,
+    private router:Router) {
+  }
 
-  @ViewChild("mapGrid") mapGrid!: ElementRef;
-  @ViewChild("gameScreen") gameScreen!: ElementRef;
-  @ViewChild("encounterContainer") encounterContainer!: ElementRef;
+  @ViewChild(AudioPlayerComponent) audioPlayer!: AudioPlayerComponent;
   @ViewChild(PlayerComponent) player!: PlayerComponent;
+  @ViewChild("mapGrid") mapGrid!: ElementRef;
 
   private state:GameState = GameState.PENDING;
   private currentMapData:number[][] = [];
@@ -39,25 +42,28 @@ export class GamePage implements OnInit, AfterViewInit {
   private encounterCaught:boolean = false;
   private processingRequest:boolean = false;
 
-  public needsInstructions:boolean = true;
-
   public get inEncounter(): boolean {
+    // Is the game in the encounter state?
     return this.state === GameState.IN_ENCOUNTER;
   }
 
-  public get isInMenu(): boolean {
+  public get isInMenu(): boolean { 
+    // Is the game menu screen displaying?
     return this.state === GameState.IN_MENU;
   }
 
   public get hasStarted(): boolean {
+    // Has the game started?
     return this.state !== GameState.PENDING;
   }
 
   public get mapData() : number[][] {
+    // Get the tile data of the currently loaded map
     return this.currentMapData;
   }
 
   public get encounterName() : string | undefined {
+    // The species name of the current encounter
     return this.encounterPokemon ? this.encounterPokemon.nickname : undefined;
   }
 
@@ -71,14 +77,8 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   public get isProcessing(): boolean {
+    // Is the game processing a request?
     return this.processingRequest;
-  }
-
-  constructor(
-    private renderer:Renderer2,
-    private userService:UserService,
-    private pokemonService:PokemonService,
-    private router:Router) {
   }
 
   public clickNavigate(url:string) {
@@ -86,18 +86,23 @@ export class GamePage implements OnInit, AfterViewInit {
     this.router.navigateByUrl(url);
   }
 
+  public showHelp():void {
+    alert("Instructions:\n\nClick or use the arrow keys to walk through the tall grass to encounter random Pokemon.\n\nVisit the gallery page (top left) to view Pokemon. Have fun!");
+  }
+
   public startGame() {
     if (this.userService.localUser!.sprite !== -1) {
-      // TODO: Show menu to set custom sprite if sprite is not set
+      // TODO: Show options to set custom sprite if sprite is not set
     }
 
     // If the trainer character is already initialized, go to to the overworld
     this.state = GameState.IN_OVERWORLD;
-    this.loadMap2();
+    this.loadMapRoute1();
     return;
   }
 
   public isTileSolid(t:TileType) {
+    // Whether or not a tile is determined to be solid
     return (t === TileType.TREE) ||
            (t >= TileType.ROOF_L && t <= TileType.BUILDING_R); //Building tiles
   }
@@ -161,38 +166,37 @@ export class GamePage implements OnInit, AfterViewInit {
           }
       }
 
+      // Update player component
       this.player.update();
     }
     
   }
 
+  // Load tile data into the map grid DOM element 
   public loadMap(map:number[][]) {
     for(let x=0; x<GRID_COLS; ++x) {
       for(let y=0; y<GRID_ROWS; ++y) {
         const tile:HTMLDivElement = this.mapGrid.nativeElement.children[`tile_${x}_${y}`];
-        console.log(TILE_OFFSET_MAP[map[y][x]].backgroundPosition);
         tile.setAttribute("tiletype", map[y][x].toString());
         tile.style.backgroundPosition = TILE_OFFSET_MAP[map[y][x]].backgroundPosition;
-        console.log(tile);
       }
     }
     this.currentMapData = map;
   }
 
-  public loadMap1() {
-    this.player.setPosition(2,14, Direction.NORTH);
-    this.loadMap(MAP_TEST2);
+  public loadMapRoute1() {
+    this.player.setPosition(16,3, Direction.SOUTH);
+    this.loadMap(MAP_ROUTE_1);
     this.audioPlayer.playRoute();
   }
 
-  public loadMap2() {
-    this.player.setPosition(16,3, Direction.SOUTH);
-    this.loadMap(MAP_TEST);
+  public loadMapRoute2() {
+    this.player.setPosition(2,14, Direction.NORTH);
+    this.loadMap(MAP_ROUTE_2);
     this.audioPlayer.playRoute();
   }
 
   public startBattle() {
-    this.needsInstructions = false;
     this.state = GameState.IN_ENCOUNTER;
     this.battleTransitionFrames = 0;
     this.audioPlayer.playBattle();
@@ -202,13 +206,13 @@ export class GamePage implements OnInit, AfterViewInit {
         this.encounterPokemon = pokemon;
       },
       error: () => {
-        alert("Could not reach server. Please try again later.");
+        alert("Error: Could not reach server. Please try again later.");
       }
     });
   }
 
+  // Catch the currently encountered pokemon
   public catchPokemonEncounter() {
-    // Catch the currently encountered pokemon
     this.processingRequest = true;
     this.audioPlayer.pauseAll();
 
@@ -249,15 +253,13 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   private clickTile(x:number, y:number) {
-    console.log("Clicked on " + x + y);
-
     const tileType = this.currentMapData[y][x];
     if (this.isTileSolid(tileType)) return;
-    
     this.player.setTargetPosition(x,y);
   }
 
   ngAfterViewInit(): void {
+    // Initially, render the tilemap as HTML elements
     for(let x=0; x<GRID_COLS; ++x) {
       for(let y=0; y<GRID_ROWS; ++y) {
         const tile:HTMLDivElement = this.renderer.createElement("div");
@@ -274,6 +276,7 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy() {
+    // Clear update loop interval when this object is destroyed
     clearInterval(this.updateIntervalId);
   }
 

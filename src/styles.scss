@@ -1,4 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "PressStart2P";
+  src: url("./assets/PressStart2P-Regular.ttf");
+}
+
+body {
+  font-family: "PressStart2P", sans-serif !important;
+}
+
 nav {
     padding: 1rem;
 }

@@ -14,7 +14,7 @@ export class LogOutButtonComponent implements OnInit {
   public logout():void {
     if (confirm("Are you sure you want to log out?")) {
       this.userService.logOut();
-      this.router.navigateByUrl("");
+      this.router.navigateByUrl(""); // Navigate back to the homepage
     }
   }
 

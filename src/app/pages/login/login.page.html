@@ -1,7 +1,27 @@
-<div class="container">
-    <h1>Log in</h1>
+<nav class="navbar fixed-top navbar-expand navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-nav" style="display: flex; justify-content: flex-start;">
+            <button [disabled]="!isLoggedIn" class="btn btn-outline-primary" (click)="clickNavigate('/gallery')" title="Visit Gallery">
+                <div class="pikachu"></div>
+                Visit Gallery →
+            </button>
+        </div>
+        <div class="navbar-nav" style="display: flex; justify-content: flex-end;">
+            <app-log-out-button *ngIf="isLoggedIn"></app-log-out-button>
+        </div>
+    </div>
+</nav>
+
+<div id="login-content" class="container text-center">
+    <div class="game-logo">
+        <img src="https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/pokemon-logo.png" />
+    </div>
+
+    <p class="login-message">Please log in to continue.</p>
+    
     <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
         <fieldset>
+            <label for="username" style="float:left">Username</label>
             <input 
             #usernameInput
             id="username" 
@@ -18,14 +38,29 @@
 
         <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger">
             <span *ngIf="username.errors['required']">A username is required.</span>
-            <span *ngIf="username.errors['minlength']">Username cannot be shorter than {{usernameInput.minLength}} characters.</span>
+            <span *ngIf="username.errors['minlength']">Username must be at least {{usernameInput.minLength}} characters.</span>
             <span *ngIf="username.errors['maxlength']">Username cannot be longer than {{usernameInput.maxLength}} characters.</span>
         </div>
 
         <button
         [disabled]="loginForm.invalid || loading"
-        class="btn btn-primary">Log in</button>
+        class="btn btn-primary btn-login">Log in</button>
 
         <div *ngIf="loading" class="loader"></div>
     </form>
+
+    <p class="status-server">Server status: 
+        <span *ngIf="isServerOnline">
+            Connected
+            <span class="green dot"></span>
+        </span>
+        <span *ngIf="!isServerOnline && !hasServerError">
+            Connecting...
+            <span class="orange dot"></span>
+        </span>
+        <span *ngIf="hasServerError">
+            Offline
+            <span class="red dot"></span>
+        </span>
+    </p>
 </div>

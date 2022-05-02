@@ -4,7 +4,8 @@
 }
 
 #gallery-content {
-    margin: 5rem;    
+    padding: 10rem;    
+    background-color: aliceblue;
 }
 
 .gallery-species-id {
@@ -15,15 +16,16 @@
 .gallery-single {
     image-rendering: pixelated;
     border: 1px solid rgba(0,0,0,0.5);
-    border-radius: 10%;
+    border-radius: 5%;
+    background-color: #fff;
     text-transform: capitalize;
     padding: 1rem;
     text-align: center;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    display:flex;
     width: auto;
+    margin: 1rem;
 }
 
 .gallery-species-sprite {
@@ -41,6 +43,10 @@
 
 .gallery-species-sprite.uncaught {
     filter: grayscale(1);
+}
+
+.gallery-species-caught-text {
+    font-size: 0.5rem;
 }
 
 .nav-trainer {

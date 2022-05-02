@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { User } from "../models/user.model";
 
@@ -34,10 +34,12 @@ export class UserService {
     this._user = user;
   }
 
+  // Get a user with the given username
   public get(username: string):Observable<User[]> {
     return this.http.get<User[]>(apiURL + "?username=" + username);
   }
 
+  // Create a new user with the given username
   public create(username: string):Observable<User> {
     const newUser = {
       username: username,
@@ -48,12 +50,19 @@ export class UserService {
     return this.http.post<User>(apiURL, JSON.stringify(newUser), { headers: HTTP_HEADERS});
   }
 
+  // Update an existing user
   public update(user: User):Observable<User> {
     return this.http.patch<User>(`${apiURL}/${user.id}`, JSON.stringify(user), { headers: HTTP_HEADERS});
   }
 
+  // Clears local storage to remove stored user data
   public logOut():void {
     this.localUser = undefined;
     localStorage.clear();
+  }
+
+  // Get request to wake up the API server
+  public pingAPI() {
+    return this.http.get(apiURL);
   }
 }

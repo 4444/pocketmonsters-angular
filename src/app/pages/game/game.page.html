@@ -13,9 +13,7 @@
     </div>
 </nav>
 
-<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-    <span *ngIf="needsInstructions" class="game-instructions">Instructions: Walk through the tall grass to encounter Pokemon. Have fun!</span>
-
+<div id="page-content" class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
     <div class="toolbar">
         <app-audio-player></app-audio-player>
     </div>
@@ -28,6 +26,7 @@
             <div #encounterContainer *ngIf="inEncounter" class="encounter-container">
                 <span *ngIf="encounterName && !encounterWasCaught" class="encounter-text">A wild {{ encounterName }} appeared!</span>
                 <span *ngIf="encounterName && encounterWasCaught" class="encounter-text capture-message">{{ encounterName }} was caught!</span>
+                <span *ngIf="encounterName && encounterWasCaught" class="encounter-text capture-confirmation">Added the Pokemon to your gallery.</span>
                 <div *ngIf="encounterImageUrl" class="encounter-pokemon" [style.background]="encounterImageUrl"></div>
 
                 <button *ngIf="!encounterWasCaught && encounterName" (click)="catchPokemonEncounter()" [disabled]="isProcessing" class="btn btn-light encounter-btn">
@@ -48,8 +47,9 @@
             </div>
         </div>
         <div id="details-screen">
-            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-outline-dark" (click)="loadMap1()">Visit Route 1</button>
-            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-outline-dark" (click)="loadMap2()">Visit Route 2</button>
+            <button class="btn btn-warning text-black btn-action" (click)="showHelp()">ℹ Instructions</button>
+            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-light btn-action" (click)="loadMapRoute1()">Visit Route 1</button>
+            <button [disabled]="isInMenu || !hasStarted || inEncounter" class="btn btn-light btn-action" (click)="loadMapRoute2()">Visit Route 2</button>
         </div>
     </div>
 </div>

@@ -22,23 +22,29 @@
             <div class="text-left">
                 <p>Name: {{pokemon.nickname}}</p>
                 <p>Level: {{pokemon.level}}</p>
+                <p>{{pokemon.types.length === 1 ? 'Type' : 'Types'}}: 
+                    <span *ngFor="let type of pokemon.types; let i = index" class="{{type}}">
+                        {{type}}{{i < pokemon.types.length - 1 ? ', ' : ''}}
+                    </span>
+                </p>
+                <span>Individual values:</span>
+                <table class="table-bordered stat-table text-center">
+                    <thead>
+                        <tr>
+                            <td>HP</td>
+                            <td>Attack</td>
+                            <td>Defense</td>
+                            <td>Special</td>
+                            <td>Speed</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let iv of pokemon.ivs">{{iv}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table-bordered stat-table">
-                <thead>
-                    <tr>
-                        <td>HP</td>
-                        <td>Attack</td>
-                        <td>Defense</td>
-                        <td>Special</td>
-                        <td>Speed</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td *ngFor="let iv of pokemon.ivs">{{iv}}</td>
-                    </tr>
-                </tbody>
-            </table>
             <img [src]="getPokemonImageUrl()" [title]="pokemon.nickname" />
             <button (click)="releasePokemon(pokemon.uid)" [disabled]="processingUid" class="btn btn-danger">
                 {{ processingUid && processingUid === pokemon.uid ? "Releasing..." : "Release" }}

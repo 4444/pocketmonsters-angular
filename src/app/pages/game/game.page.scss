@@ -1,3 +1,10 @@
+#page-content {
+    background-color: #70c8a0;
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/bg_grass.png");
+    image-rendering: pixelated;
+    background-size: 640px auto;
+}
+
 .main-content {
     position: relative;
     width: 640px;
@@ -14,6 +21,7 @@
 }
 
 .overlay-white {
+    image-rendering: pixelated;
     display:flex;
     justify-content: center;
     align-items:center;
@@ -21,6 +29,8 @@
     width: 100%;
     height: 100%;
     background-color: rgba(255,255,255);
+    background: url("https://raw.githubusercontent.com/4444/pocketmonsters-web-app/main/resources/background_A.png");
+    background-size: cover;
     z-index: 1;
 }
 
@@ -44,6 +54,11 @@
     height: 100%;
     background-color: rgba(0,0,0,0.5);
     z-index: 1;
+}
+
+.btn-action {
+    font-size: 0.5rem;
+    margin-right:0.5rem;
 }
 
 #map-grid {
@@ -103,12 +118,17 @@
     top: 5rem;
     text-transform: uppercase;
     font-size: 1rem;
-    transform:translate(0 50%);
     color: white;
 }
 
 .encounter-text.capture-message {
     color: rgb(24,220,24);
+}
+
+.encounter-text.capture-confirmation {
+    color: white;
+    top: 7.5rem;
+    font-size: 0.75rem;
 }
 
 .encounter-btn {

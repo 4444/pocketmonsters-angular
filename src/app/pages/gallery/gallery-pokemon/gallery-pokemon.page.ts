@@ -24,10 +24,11 @@ export class GalleryPokemonPage implements OnInit {
     return `https://pkmn.net/sprites/crystal/${this.id}.gif`;
   }
 
+  // Release a single pokemon with unique identifier uid
   public releasePokemon(uid:number) {
     const pokemon = this.caughtPokemon.find(p => p.uid === uid);
 
-    // Confirm the action first
+    // Confirm the release action first
     if (confirm(`Are you sure you want to release your precious level ${pokemon?.level} ${pokemon?.nickname}?`)) {
       
       this.processingUid = uid;
@@ -60,18 +61,17 @@ export class GalleryPokemonPage implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    // Obtain the pokemon's ID from the URL (route parameter)
     this.route.params.subscribe(params => {
       this.id = parseInt(params["id"]);
-
       this.loadCaughtPokemon();
     });
   }
 
-  loadCaughtPokemon():void {
+  private loadCaughtPokemon():void {
     // Obtain locally caught pokemon
-    this.caughtPokemon = this.userService.localUser!.pokemon
-                            .filter(p => p.id === this.id);
+    this.caughtPokemon = this.userService.localUser!.pokemon.filter(p => p.id === this.id);
   }
 
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Resources } from 'src/app/constants/resources.const';
 
 @Component({
@@ -6,7 +6,7 @@ import { Resources } from 'src/app/constants/resources.const';
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.scss']
 })
-export class AudioPlayerComponent implements OnInit, AfterViewInit {
+export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private bgm_title_audio : HTMLAudioElement = new Audio(Resources.BGM_TITLE_URL);
   private bgm_route_audio : HTMLAudioElement = new Audio(Resources.BGM_ROUTE_URL);
@@ -21,11 +21,17 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.bgmElements.forEach(audio => audio.loop = true);
-    this.bgmElements.forEach(audio => audio.preload = "auto");
+    // Set background music elements to loop
+    this.bgmElements.forEach(audio => {
+      audio.loop = true
+      audio.preload = "auto";
+    });
 
-    this.sfxElements.forEach(audio => audio.loop = false);
-    this.sfxElements.forEach(audio => audio.preload = "auto");
+    // Set sound effects to not loop
+    this.sfxElements.forEach(audio => { 
+      audio.loop = false;
+      audio.preload = "auto";
+    });
   }
 
   public playTitle() {
@@ -60,6 +66,15 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
+  }
+
+  public ngOnDestroy() {
+    this.bgmElements.forEach(a => {
+      a.pause();
+    });
+    this.sfxElements.forEach(a => {
+      a.pause();
+    });
   }
 
 }
