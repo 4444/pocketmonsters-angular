@@ -4,7 +4,7 @@ Pocket Monsters app created with the Angular framework.
 This is a submission for an assignment which requires to use the API from PokeApi (https://pokeapi.co/) in a web application using the Angular framework.
 
 ## Getting started
-To build and run this application, the Angular CLI must be installed using `npm install -g @angular/cli`
+To build and run this application, npm and the Angular CLI must be installed using `npm install -g @angular/cli`
 * Run `npm install`
 * Run `ng serve` to build and run the application
 
